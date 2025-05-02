@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubesKPL_KitaBelajar", "TubesKPL_KitaBelajar\TubesKPL_KitaBelajar.csproj", "{70C9AB75-CCDC-4CE1-A7DE-BFAE83FEB900}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70C9AB75-CCDC-4CE1-A7DE-BFAE83FEB900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70C9AB75-CCDC-4CE1-A7DE-BFAE83FEB900}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70C9AB75-CCDC-4CE1-A7DE-BFAE83FEB900}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70C9AB75-CCDC-4CE1-A7DE-BFAE83FEB900}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB8FAB57-A10A-4E12-829D-81CD5A2B96AD}
+	EndGlobalSection
+EndGlobal
