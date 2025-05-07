@@ -9,19 +9,19 @@ namespace TubesKPL_KitaBelajar
     {
         static void Main(string[] args)
         {
-            
             User user = GetUserInput();
             IAuthService authService = new AuthService();
 
             try
             {
                 bool result = authService.Login(user);
-                Console.WriteLine(result ? "Login berhasil!" : "Login gagal.");
+                Console.WriteLine(result ? "\nLogin berhasil!\n" : "\n Login gagal.");
 
                 if (result)
                 {
-              
                     LatihanSoalController.StartLatihan();
+
+                    TampilkanMenuPengingat();
                 }
                 else
                 {
@@ -36,6 +36,7 @@ namespace TubesKPL_KitaBelajar
 
         static User GetUserInput()
         {
+            Console.WriteLine("=== LOGIN ===");
             Console.Write("Masukkan username: ");
             string username = Console.ReadLine();
 
@@ -47,6 +48,33 @@ namespace TubesKPL_KitaBelajar
                 Username = username,
                 Password = password
             };
+        }
+
+        static void TampilkanMenuPengingat()
+        {
+            Console.WriteLine("\n=== MENU PENGINGAT BELAJAR ===");
+
+            while (true)
+            {
+                Console.Write("Masukkan bulan (1–12) untuk melihat pengingat atau ketik 'Q' untuk keluar: ");
+                string input = Console.ReadLine()?.Trim().ToUpper();
+
+                if (input == "Q")
+                {
+                    Console.WriteLine("Terima kasih! Sampai jumpa.");
+                    break;
+                }
+
+                if (int.TryParse(input, out int bulan) && bulan >= 1 && bulan <= 12)
+                {
+                    int tahun = DateTime.Now.Year;
+                    NotifikasiPengingat.TampilkanPengingat(bulan, tahun);
+                }
+                else
+                {
+                    Console.WriteLine("Input tidak valid. Masukkan angka 1–12 atau 'Q' untuk keluar.");
+                }
+            }
         }
     }
 }
