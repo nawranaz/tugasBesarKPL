@@ -19,26 +19,45 @@ namespace TubesKPL_KitaBelajar
 
                 if (result)
                 {
-                    Console.WriteLine("1. Latihan Soal");
-                    Console.WriteLine("2. Modul Pembelajaran");
-                    Console.Write("Pilih menu: ");
-                    string pilihan = Console.ReadLine();
-
-                    switch (pilihan)
+                    string pilihan;
+                    do
                     {
-                        case "1":
-                            LatihanSoalController.StartLatihan();
-                            break;
-                        case "2":
-                            ModulController.TampilkanModul();
-                            break;
-                        default:
-                            Console.WriteLine("Pilihan tidak valid.");
-                            break;
-                    }
+                        Console.WriteLine("\n=== MENU UTAMA ===");
+                        Console.WriteLine("1. Latihan Soal");
+                        Console.WriteLine("2. Modul Pembelajaran");
+                        Console.WriteLine("3. Video Pembelajaran");
+                        Console.WriteLine("4. Notifikasi Pengingat");
+                        Console.WriteLine("Q. Keluar");
+                        Console.Write("Pilih menu: ");
+                        pilihan = Console.ReadLine()?.Trim().ToUpper();
 
-                    Console.WriteLine("\nTekan sembarang tombol untuk keluar...");
-                    Console.ReadKey();
+                        switch (pilihan)
+                        {
+                            case "1":
+                                LatihanSoalController.StartLatihan();
+                                break;
+                            case "2":
+                                ModulController.TampilkanModul();
+                                break;
+                            case "3":
+                                VideoEdukasi.RunVideo();
+                                break;
+                            case "4":
+                                Console.Write("Masukkan bulan (1-12): ");
+                                int bulan = int.Parse(Console.ReadLine());
+                                Console.Write("Masukkan tahun: ");
+                                int tahun = int.Parse(Console.ReadLine());
+                                NotifikasiPengingat.TampilkanPengingat(bulan, tahun);
+                                break;
+                            case "Q":
+                                Console.WriteLine("Terima kasih, sampai jumpa!");
+                                break;
+                            default:
+                                Console.WriteLine("Pilihan tidak valid.");
+                                break;
+                        }
+
+                    } while (pilihan != "Q");
                 }
                 else
                 {
@@ -50,6 +69,7 @@ namespace TubesKPL_KitaBelajar
                 Console.WriteLine($"Terjadi kesalahan: {ex.Message}");
             }
         }
+
 
         static User GetUserInput()
         {
