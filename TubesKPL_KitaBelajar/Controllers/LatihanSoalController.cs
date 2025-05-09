@@ -139,14 +139,16 @@
             }
         }
 
-        private static Dictionary<string, List<SoalLatihan>> LoadSoalData(string filePath)
+        private static Dictionary<string, List<SoalLatihan>> LoadSoalData(string fileName)
         {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", fileName);
             var jsonString = File.ReadAllText(filePath);
             return JsonSerializer.Deserialize<Dictionary<string, List<SoalLatihan>>>(jsonString);
         }
 
-        private static List<JawabanLatihan> LoadJawabanData(string filePath)
+        private static List<JawabanLatihan> LoadJawabanData(string fileName)
         {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", fileName);
             var jsonString = File.ReadAllText(filePath);
             return JsonSerializer.Deserialize<List<JawabanLatihan>>(jsonString);
         }

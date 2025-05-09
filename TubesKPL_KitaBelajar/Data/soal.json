@@ -1,0 +1,100 @@
+{
+  "Matematika": [
+    {
+      "Question": "4 x ... = 80. Bilangan yang tepat untuk melengkapi titik-titik di atas adalah...",
+      "Options": [
+        "10",
+        "20",
+        "300",
+        "40"
+      ]
+    },
+    {
+      "Question": "6 x 15 = ...",
+      "Options": [
+        "70",
+        "80",
+        "90",
+        "100"
+      ]
+    },
+    {
+      "Question": "Syila memberikan buah jeruk kepada 15 orang tetangganya. Jika masing-masing tetangga memperoleh 8 buah jeruk. Jumlah jeruk yang dimiliki Syila adalah...",
+      "Options": [
+        "100",
+        "120",
+        "140",
+        "160"
+      ]
+    }
+  ],
+  "IPA": [
+    {
+      "Question": "Hewan yang suaranya berkokok adalah...",
+      "Options": [
+        "Kambing",
+        "Ayam",
+        "Kerbau",
+        "Gajah"
+      ]
+    },
+    {
+      "Question": "Sumber energi manusia berasal dari...",
+      "Options": [
+        "Matahari",
+        "Makanan",
+        "Air",
+        "Udara"
+      ]
+    },
+    {
+      "Question": "Contoh perubahan wujud mencair adalah...",
+      "Options": [
+        "Air menjadi es",
+        "Es menjadi air",
+        "Uap menjadi air",
+        "Air menjadi uap"
+      ]
+    }
+  ],
+  "Bahasa Inggris": [
+    {
+      "Question": "I cannot play outside because it is ....",
+      "Options": [
+        "rainy",
+        "windy",
+        "sunny",
+        "tornado"
+      ]
+    },
+    {
+      "Question": "The snow is falling during ....",
+      "Options": [
+        "summer",
+        "winter",
+        "autumn",
+        "spring"
+      ]
+    }
+  ],
+  "IPS": [
+    {
+      "Question": "Lingkungan yang sudah ada dengan sendirinya tanpa dibuat oleh manusia dinamakan lingkungan ....",
+      "Options": [
+        "Fisik",
+        "Alam",
+        "Buatan",
+        "Hutan"
+      ]
+    },
+    {
+      "Question": "Pasar yang menjual barang kebutuhan sehari-hari dalam jumlah besar disebut pasar…",
+      "Options": [
+        "Minggu",
+        "Induk",
+        "Harian",
+        "Loak"
+      ]
+    }
+  ]
+}

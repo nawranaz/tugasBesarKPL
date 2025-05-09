@@ -15,13 +15,30 @@ namespace TubesKPL_KitaBelajar
             try
             {
                 bool result = authService.Login(user);
-                Console.WriteLine(result ? "\nLogin berhasil!\n" : "\n Login gagal.");
+                Console.WriteLine(result ? "\nLogin berhasil!\n" : "\nLogin gagal.");
 
                 if (result)
                 {
-                    LatihanSoalController.StartLatihan();
+                    Console.WriteLine("1. Latihan Soal");
+                    Console.WriteLine("2. Modul Pembelajaran");
+                    Console.Write("Pilih menu: ");
+                    string pilihan = Console.ReadLine();
 
-                    TampilkanMenuPengingat();
+                    switch (pilihan)
+                    {
+                        case "1":
+                            LatihanSoalController.StartLatihan();
+                            break;
+                        case "2":
+                            ModulController.TampilkanModul();
+                            break;
+                        default:
+                            Console.WriteLine("Pilihan tidak valid.");
+                            break;
+                    }
+
+                    Console.WriteLine("\nTekan sembarang tombol untuk keluar...");
+                    Console.ReadKey();
                 }
                 else
                 {
@@ -48,33 +65,6 @@ namespace TubesKPL_KitaBelajar
                 Username = username,
                 Password = password
             };
-        }
-
-        static void TampilkanMenuPengingat()
-        {
-            Console.WriteLine("\n=== MENU PENGINGAT BELAJAR ===");
-
-            while (true)
-            {
-                Console.Write("Masukkan bulan (1–12) untuk melihat pengingat atau ketik 'Q' untuk keluar: ");
-                string input = Console.ReadLine()?.Trim().ToUpper();
-
-                if (input == "Q")
-                {
-                    Console.WriteLine("Terima kasih! Sampai jumpa.");
-                    break;
-                }
-
-                if (int.TryParse(input, out int bulan) && bulan >= 1 && bulan <= 12)
-                {
-                    int tahun = DateTime.Now.Year;
-                    NotifikasiPengingat.TampilkanPengingat(bulan, tahun);
-                }
-                else
-                {
-                    Console.WriteLine("Input tidak valid. Masukkan angka 1–12 atau 'Q' untuk keluar.");
-                }
-            }
         }
     }
 }
