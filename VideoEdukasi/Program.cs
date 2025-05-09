@@ -67,7 +67,8 @@ namespace VideoEdukasiApp
                 {
                     var selectedVideo = videos[index - 1];
                     Console.WriteLine($"\nMemutar: {selectedVideo.Judul}");
-                    System.Diagnostics.Process.Start("explorer", selectedVideo.FilePath);
+                    /*System.Diagnostics.Process.Start("explorer", selectedVideo.FilePath);*/
+                    // Uncomment line di atas untuk memutar video
                 }
                 else
                 {
