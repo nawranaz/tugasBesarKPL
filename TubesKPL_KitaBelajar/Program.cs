@@ -21,6 +21,7 @@ namespace TubesKPL_KitaBelajar
                 {
                     Console.WriteLine("1. Latihan Soal");
                     Console.WriteLine("2. Modul Pembelajaran");
+                    Console.WriteLine("3. Catatan Pembelajaran");
                     Console.Write("Pilih menu: ");
                     string pilihan = Console.ReadLine();
 
@@ -31,6 +32,9 @@ namespace TubesKPL_KitaBelajar
                             break;
                         case "2":
                             ModulController.TampilkanModul();
+                            break;
+                        case "3":
+                            CatatanController.StartModulCatatan();
                             break;
                         default:
                             Console.WriteLine("Pilihan tidak valid.");
