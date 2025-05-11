@@ -27,6 +27,7 @@ namespace TubesKPL_KitaBelajar
                         Console.WriteLine("2. Modul Pembelajaran");
                         Console.WriteLine("3. Video Pembelajaran");
                         Console.WriteLine("4. Notifikasi Pengingat");
+                        Console.WriteLine("5. Catatan");
                         Console.WriteLine("Q. Keluar");
                         Console.Write("Pilih menu: ");
                         pilihan = Console.ReadLine()?.Trim().ToUpper();
@@ -48,6 +49,9 @@ namespace TubesKPL_KitaBelajar
                                 Console.Write("Masukkan tahun: ");
                                 int tahun = int.Parse(Console.ReadLine());
                                 NotifikasiPengingat.TampilkanPengingat(bulan, tahun);
+                                break;
+                            case "5":
+                                CatatanController.StartModulCatatan();
                                 break;
                             case "Q":
                                 Console.WriteLine("Terima kasih, sampai jumpa!");
