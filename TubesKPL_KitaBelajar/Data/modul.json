@@ -3,24 +3,24 @@
     "MataPelajaran": "Matematika",
     "Judul": "Perkalian dan Aplikasi dalam Kehidupan Sehari-hari",
     "Deskripsi": "Modul ini menjelaskan konsep dasar perkalian serta penerapannya.",
-    "Konten": "Perkalian adalah operasi matematika dasar. Contoh: 4 x 20 = 80. Jika seseorang memberi 8 jeruk ke 15 orang, maka total jeruk = 15 x 8 = 120."
+    "Konten": "- Perkalian adalah operasi matematika dasar. Contoh: 4 x 20 = 80.\n- Jika seseorang memberi 8 jeruk ke 15 orang, maka total jeruk = 15 x 8 = 120."
   },
   {
     "MataPelajaran": "IPA",
     "Judul": "Ciri-Ciri Hewan dan Perubahan Wujud Benda",
     "Deskripsi": "Mengenal hewan dan sumber energi serta wujud benda.",
-    "Konten": "Ayam berkokok, kambing mengembik. Energi manusia berasal dari makanan. Es mencair menjadi air (perubahan mencair)."
+    "Konten": "- Ayam berkokok, kambing mengembik.\n- Energi manusia berasal dari makanan.\n- Es mencair menjadi air (perubahan mencair)."
   },
   {
     "MataPelajaran": "Bahasa Inggris",
     "Judul": "Weather and Seasons",
     "Deskripsi": "Memahami cuaca dan musim dalam Bahasa Inggris.",
-    "Konten": "Rainy = hujan, Windy = berangin. Snow terjadi di musim dingin (winter). Sunny = cerah. I cannot play outside because it is rainy."
+    "Konten": "- Rainy = hujan, Windy = berangin, Sunny = cerah.\n- Snow terjadi di musim dingin (winter).\n- I cannot play outside because it is rainy."
   },
   {
     "MataPelajaran": "IPS",
     "Judul": "Lingkungan dan Jenis-Jenis Pasar",
     "Deskripsi": "Mempelajari jenis lingkungan dan pasar dalam kehidupan sosial.",
-    "Konten": "Lingkungan alam terbentuk secara alami. Pasar induk menjual barang dalam jumlah besar. Pasar harian menjual kebutuhan setiap hari."
+    "Konten": "- Lingkungan alam terbentuk secara alami.\n- Pasar induk menjual barang dalam jumlah besar.\n- Pasar harian menjual kebutuhan setiap hari."
   }
 ]

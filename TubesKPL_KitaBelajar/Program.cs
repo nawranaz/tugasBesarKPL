@@ -47,6 +47,7 @@ namespace TubesKPL_KitaBelajar
                                 VideoEdukasi.RunVideo();
                                 break;
                             case "4":
+                                Console.WriteLine("\n=== Notifikasi Pengingat ===");
                                 Console.Write("Masukkan bulan (1-12): ");
                                 int bulan = int.Parse(Console.ReadLine());
                                 Console.Write("Masukkan tahun: ");
