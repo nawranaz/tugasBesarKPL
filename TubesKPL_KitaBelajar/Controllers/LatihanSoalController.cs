@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using TubesKPL_KitaBelajar.Model;
+using TubesKPL_KitaBelajar.Library.Model;
+
 
 namespace TubesKPL_KitaBelajar.Controllers
 {
@@ -83,7 +84,8 @@ namespace TubesKPL_KitaBelajar.Controllers
 
             for (int i = 0; i < soalList.Count; i++)
             {
-                var soal = soalList[i];
+                var soal = selectedSoalList[i];
+
                 Console.WriteLine($"\nSoal {i + 1}:\n{soal.Question}");
 
                 char[] abcd = { 'A', 'B', 'C', 'D' };
