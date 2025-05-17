@@ -7,21 +7,38 @@ namespace TubesKPL_KitaBelajar
 {
     class Program
     {
+        //enum pada teknik automata
+        enum AppState
+        {
+            LOGIN,
+            MENU,
+            LATIHAN_SOAL,
+            MODUL,
+            VIDEO,
+            PENGINGAT,
+            CATATAN,
+            EXIT
+        }
+
         static void Main(string[] args)
         {
-            User user = GetUserInput();
+            AppState state = AppState.LOGIN;
+            User user = null;
             IAuthService authService = new AuthService();
 
-            try
+            while (state != AppState.EXIT)
             {
-                bool result = authService.Login(user);
-                Console.WriteLine(result ? "\nLogin berhasil!\n" : "\nLogin gagal.");
-
-                if (result)
+                switch (state)
                 {
-                    string pilihan;
-                    do
-                    {
+                    case AppState.LOGIN:
+                        user = GetUserInput();
+                        bool result = authService.Login(user);
+                        Console.WriteLine(result ? "\nLogin berhasil!\n" : "\nLogin gagal.");
+
+                        state = result ? AppState.MENU : AppState.EXIT;
+                        break;
+
+                    case AppState.MENU:
                         Console.WriteLine("\n=== MENU UTAMA ===");
                         Console.WriteLine("1. Latihan Soal");
                         Console.WriteLine("2. Modul Pembelajaran");
@@ -30,50 +47,62 @@ namespace TubesKPL_KitaBelajar
                         Console.WriteLine("5. Catatan");
                         Console.WriteLine("Q. Keluar");
                         Console.Write("Pilih menu: ");
-                        pilihan = Console.ReadLine()?.Trim().ToUpper();
 
-                        switch (pilihan)
+                        string input = Console.ReadLine()?.Trim().ToUpper();
+
+                        state = input switch
                         {
-                            case "1":
-                                LatihanSoalController.StartLatihan();
-                                break;
-                            case "2":
-                                ModulController.TampilkanModul();
-                                break;
-                            case "3":
-                                VideoEdukasi.RunVideo();
-                                break;
-                            case "4":
-                                Console.Write("Masukkan bulan (1-12): ");
-                                int bulan = int.Parse(Console.ReadLine());
-                                Console.Write("Masukkan tahun: ");
-                                int tahun = int.Parse(Console.ReadLine());
+                            "1" => AppState.LATIHAN_SOAL,
+                            "2" => AppState.MODUL,
+                            "3" => AppState.VIDEO,
+                            "4" => AppState.PENGINGAT,
+                            "5" => AppState.CATATAN,
+                            "Q" => AppState.EXIT,
+                            _ => AppState.MENU
+                        };
+                        break;
+
+                    case AppState.LATIHAN_SOAL:
+                        LatihanSoalController.StartLatihan();
+                        state = AppState.MENU;
+                        break;
+
+                    case AppState.MODUL:
+                        ModulController.TampilkanModul();
+                        state = AppState.MENU;
+                        break;
+
+                    case AppState.VIDEO:
+                        VideoEdukasi.RunVideo();
+                        state = AppState.MENU;
+                        break;
+
+                    case AppState.PENGINGAT:
+                        Console.Write("Masukkan bulan (1-12): ");
+                        if (int.TryParse(Console.ReadLine(), out int bulan) && bulan >= 1 && bulan <= 12)
+                        {
+                            Console.Write("Masukkan tahun: ");
+                            if (int.TryParse(Console.ReadLine(), out int tahun))
+                            {
                                 NotifikasiPengingat.TampilkanPengingat(bulan, tahun);
-                                break;
-                            case "5":
-                                CatatanController.StartModulCatatan();
-                                break;
-                            case "Q":
-                                Console.WriteLine("Terima kasih, sampai jumpa!");
-                                break;
-                            default:
-                                Console.WriteLine("Pilihan tidak valid.");
-                                break;
+                            }
                         }
+                        else
+                        {
+                            Console.WriteLine("Input tidak valid.");
+                        }
+                        state = AppState.MENU;
+                        break;
 
-                    } while (pilihan != "Q");
-                }
-                else
-                {
-                    Console.WriteLine("Login gagal. Program akan keluar.");
+                    case AppState.CATATAN:
+                        CatatanController.StartModulCatatan();
+                        state = AppState.MENU;
+                        break;
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Terjadi kesalahan: {ex.Message}");
-            }
+
+            Console.WriteLine("Terima kasih, sampai jumpa!");
         }
-
 
         static User GetUserInput()
         {
