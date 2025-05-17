@@ -5,37 +5,44 @@ using System.Threading.Tasks;
 using TubesKPL_KitaBelajar.Model;
 using TubesKPL_KitaBelajar.Services;
 using TubesKPL_KitaBelajar.Controllers;
+using System.Diagnostics;
 
 namespace TubesKPL_KitaBelajar
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
-            User pengguna = GetUserInput();
+            User user = GetUserInput();
             IAuthService authService = new AuthService();
 
             try
             {
-                bool result = authService.Login(pengguna);
+                bool result = authService.Login(user);
                 Console.WriteLine(result ? "\nLogin berhasil!\n" : "\nLogin gagal.");
 
-                if (result)
-                {
-                    string pilihan;
-                    do
-                    {
+                            state = result ? AppState.MENU : AppState.EXIT;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Terjadi kesalahan saat login: {ex.Message}");
+                            state = AppState.EXIT;
+                        }
+                        break;
+
+                    case AppState.MENU:
                         Console.WriteLine("\n=== MENU UTAMA ===");
                         Console.WriteLine("1. Latihan Soal");
                         Console.WriteLine("2. Modul Pembelajaran");
                         Console.WriteLine("3. Video Pembelajaran");
                         Console.WriteLine("4. Notifikasi Pengingat");
-                        Console.WriteLine("5. Forum Diskusi");
                         Console.WriteLine("Q. Keluar");
                         Console.Write("Pilih menu: ");
-                        pilihan = Console.ReadLine()?.Trim().ToUpper();
 
-                        switch (pilihan)
+                        string input = Console.ReadLine()?.Trim().ToUpper();
+
+                        
+                        if (string.IsNullOrEmpty(input))
                         {
                             case "1":
                                 LatihanSoalController.StartLatihan();
@@ -47,15 +54,11 @@ namespace TubesKPL_KitaBelajar
                                 VideoEdukasi.RunVideo();
                                 break;
                             case "4":
-                                Console.WriteLine("\n=== Notifikasi Pengingat ===");
                                 Console.Write("Masukkan bulan (1-12): ");
                                 int bulan = int.Parse(Console.ReadLine());
                                 Console.Write("Masukkan tahun: ");
                                 int tahun = int.Parse(Console.ReadLine());
                                 NotifikasiPengingat.TampilkanPengingat(bulan, tahun);
-                                break;
-                            case "5":
-                                await KirimKomentarKeAPI(pengguna.Username);
                                 break;
                             case "Q":
                                 Console.WriteLine("Terima kasih, sampai jumpa!");
@@ -65,18 +68,32 @@ namespace TubesKPL_KitaBelajar
                                 break;
                         }
 
-                    } while (pilihan != "Q");
+                            NotifikasiPengingat.TampilkanPengingat(bulan, tahun);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Kesalahan pada pengingat: {ex.Message}");
+                        }
+                        state = AppState.MENU;
+                        break;
+
+                    case AppState.CATATAN:
+                        try
+                        {
+                            CatatanController.StartModulCatatan();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Kesalahan pada modul catatan: {ex.Message}");
+                        }
+                        state = AppState.MENU;
+                        break;
                 }
-                else
-                {
-                    Console.WriteLine("Login gagal. Program akan keluar.");
-                }
+
+                
+                Debug.Assert(Enum.IsDefined(typeof(AppState), state), "State tidak valid!");
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Terjadi kesalahan: {ex.Message}");
-            }
-        }
+
 
         static User GetUserInput()
         {

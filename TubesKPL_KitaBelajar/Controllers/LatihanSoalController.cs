@@ -79,8 +79,7 @@ namespace TubesKPL_KitaBelajar.Controllers
         {
             Console.WriteLine($"\n=== Latihan {selectedSubject} ===");
 
-            var soalList = soalListByMatpel[selectedSubject];
-            Shuffle(soalList);
+            List<SoalLatihan> selectedSoalList = soalListByMatpel[selectedSubject];
 
             for (int i = 0; i < soalList.Count; i++)
             {

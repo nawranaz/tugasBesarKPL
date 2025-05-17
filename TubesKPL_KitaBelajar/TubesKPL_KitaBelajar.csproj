@@ -14,6 +14,12 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
+	  <None Update="Data\config.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\index.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Data\jawaban.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
