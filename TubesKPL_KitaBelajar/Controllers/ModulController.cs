@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using TubesKPL_KitaBelajar.Services;
-using TubesKPL_KitaBelajar.Model;
+using TubesKPL_KitaBelajar.Library.Services;
+using TubesKPL_KitaBelajar.Library.Model;
 using System.Collections.Generic;
 
 namespace TubesKPL_KitaBelajar.Controllers
