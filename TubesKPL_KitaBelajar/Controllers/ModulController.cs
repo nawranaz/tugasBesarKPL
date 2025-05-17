@@ -18,7 +18,7 @@ namespace TubesKPL_KitaBelajar.Controllers
                 return;
             }
 
-            Console.WriteLine("\nDaftar Mata Pelajaran yang Tersedia");
+            Console.WriteLine("\n Daftar Mata Pelajaran yang Tersedia");
             var mapelUnik = modulList
                 .Select(m => m.MataPelajaran)
                 .Distinct()
@@ -29,7 +29,7 @@ namespace TubesKPL_KitaBelajar.Controllers
                 Console.WriteLine($"{i + 2}. {mapelUnik[i]}");
             }
 
-            Console.Write("Pilih nomor mata pelajaran: ");
+            Console.Write("\nPilih nomor mata pelajaran: ");
             string input = Console.ReadLine()?.Trim();
 
             int maksimumPilihan = mapelUnik.Count + 1;
@@ -57,9 +57,9 @@ namespace TubesKPL_KitaBelajar.Controllers
             Console.WriteLine($"\nModul untuk Mata Pelajaran: {mapelDipilih}");
             foreach (var modul in modulTerkait)
             {
-                Console.WriteLine($"Judul     : {modul.Judul}");
+                Console.WriteLine($"\nJudul     : {modul.Judul}");
                 Console.WriteLine($"Deskripsi : {modul.Deskripsi}");
-                Console.WriteLine($"Konten    : \n{modul.Konten}");
+                Console.WriteLine($"Konten    : {modul.Konten}");
             }
         }
 

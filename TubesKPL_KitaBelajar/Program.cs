@@ -2,10 +2,11 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using TubesKPL_KitaBelajar.Library.Model;
-using TubesKPL_KitaBelajar.Library.Services;
+
 using TubesKPL_KitaBelajar.Controllers;
 using System.Diagnostics;
+using TubesKPL_KitaBelajar.Library.Model;
+using TubesKPL_KitaBelajar.Library.Services;
 
 namespace TubesKPL_KitaBelajar
 {
@@ -20,6 +21,7 @@ namespace TubesKPL_KitaBelajar
             VIDEO,
             PENGINGAT,
             FORUM,
+            CATATAN,
             EXIT
         }
 
@@ -63,6 +65,7 @@ namespace TubesKPL_KitaBelajar
                         Console.WriteLine("3. Video Pembelajaran");
                         Console.WriteLine("4. Notifikasi Pengingat");
                         Console.WriteLine("5. Forum Diskusi");
+                        Console.WriteLine("6. Catatan");
                         Console.WriteLine("Q. Keluar");
                         Console.Write("Pilih menu: ");
 
@@ -82,6 +85,7 @@ namespace TubesKPL_KitaBelajar
                             "3" => AppState.VIDEO,
                             "4" => AppState.PENGINGAT,
                             "5" => AppState.FORUM,
+                            "6" => AppState.CATATAN,
                             "Q" => AppState.EXIT,
                             _ => AppState.MENU
                         };
@@ -136,6 +140,18 @@ namespace TubesKPL_KitaBelajar
                         catch (Exception ex)
                         {
                             Console.WriteLine($"Gagal kirim komentar: {ex.Message}");
+                        }
+                        state = AppState.MENU;
+                        break;
+
+                    case AppState.CATATAN:
+                        try
+                        {
+                            CatatanController.StartModulCatatan();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Kesalahan pada modul catatan: {ex.Message}");
                         }
                         state = AppState.MENU;
                         break;
