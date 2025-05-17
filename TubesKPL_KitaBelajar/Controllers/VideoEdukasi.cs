@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace VideoEdukasiApp
+namespace TubesKPL_KitaBelajar.Controllers
 {
-    class Program
+    class VideoEdukasi
     {
         // Representasi data video menggunakan class
         public class Video
@@ -13,7 +16,7 @@ namespace VideoEdukasiApp
             public string FilePath { get; set; }
         }
 
-        static void Main(string[] args)
+        public static void RunVideo()
         {
             // Table-driven: daftar video disimpan dalam Dictionary berdasarkan kategori
             Dictionary<string, List<Video>> videoTable = new Dictionary<string, List<Video>>
@@ -31,17 +34,26 @@ namespace VideoEdukasiApp
                         new Video { Judul = "Alphabet", Deskripsi = "Belajar huruf A sampai Z", FilePath = "video/alphabet.mp4" },
                         new Video { Judul = "Greetings", Deskripsi = "Belajar sapaan dasar dalam Bahasa Inggris", FilePath = "video/greetings.mp4" }
                     }
+                },
+                {
+                    "IPA", new List<Video>
+                    {
+                        new Video { Judul = "Sistem Pernapasan", Deskripsi = "Proses pernapasan manusia", FilePath = "video/pernapasan.mp4" },
+                        new Video { Judul = "Fotosintesis", Deskripsi = "Proses fotosintesis pada tumbuhan", FilePath = "video/fotosintesis.mp4" }
+                    }
                 }
             };
 
-            Console.WriteLine("=== Video ===");
+            Console.WriteLine("\n=== Video ===");
             Console.WriteLine("Kategori Tersedia: ");
+            int num = 1;
             foreach (var kategori in videoTable.Keys)
             {
-                Console.WriteLine($"- {kategori}");
+                Console.WriteLine($"{num}. {kategori}");
+                num++;
             }
 
-            Console.Write("\nMasukkan kategori video: ");
+            Console.Write("Masukkan kategori video: ");
             string inputKategori = Console.ReadLine();
             int inputKategoriIndex;
             if (int.TryParse(inputKategori, out inputKategoriIndex) && inputKategoriIndex >= 1 && inputKategoriIndex <= videoTable.Count)
@@ -52,7 +64,7 @@ namespace VideoEdukasiApp
             if (videoTable.ContainsKey(inputKategori))
             {
                 var videos = videoTable[inputKategori];
-                Console.WriteLine($"\nDaftar video untuk kategori '{inputKategori}':\n");
+                Console.WriteLine($"\nDaftar video untuk kategori '{inputKategori}':");
 
                 for (int i = 0; i < videos.Count; i++)
                 {
@@ -67,7 +79,8 @@ namespace VideoEdukasiApp
                 {
                     var selectedVideo = videos[index - 1];
                     Console.WriteLine($"\nMemutar: {selectedVideo.Judul}");
-                    System.Diagnostics.Process.Start("explorer", selectedVideo.FilePath);
+                    //System.Diagnostics.Process.Start("explorer", selectedVideo.FilePath);
+                    // uncomment untuk memutar video dari file path
                 }
                 else
                 {

@@ -8,6 +8,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubesKPL_KitaBelajar_API", "TubesKPL_KitaBelajar_API\TubesKPL_KitaBelajar_API.csproj", "{30CD0717-BAC3-4FAC-9215-21DD45EA8DB8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{065EF176-FF33-4EF5-B795-B762B82CBB48}"
+
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +28,7 @@ Global
 		{065EF176-FF33-4EF5-B795-B762B82CBB48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{065EF176-FF33-4EF5-B795-B762B82CBB48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{065EF176-FF33-4EF5-B795-B762B82CBB48}.Release|Any CPU.Build.0 = Release|Any CPU
+
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
