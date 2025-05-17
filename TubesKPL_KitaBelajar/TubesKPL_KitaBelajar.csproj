@@ -7,10 +7,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Library\Library.csproj" />
-	</ItemGroup>
-
 	
 	<ItemGroup>
 		<Content Update="Data\*.json">
