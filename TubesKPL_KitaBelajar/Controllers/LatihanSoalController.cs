@@ -96,7 +96,6 @@
             Console.WriteLine($"=== Latihan {selectedSubject} ===");
 
             List<SoalLatihan> selectedSoalList = soalListByMatpel[selectedSubject];
-            Shuffle(selectedSoalList);
 
             for (int i = 0; i < selectedSoalList.Count; i++)
             {
