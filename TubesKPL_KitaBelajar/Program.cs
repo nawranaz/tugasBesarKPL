@@ -2,8 +2,8 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using TubesKPL_KitaBelajar.Library.Model;
-using TubesKPL_KitaBelajar.Library.Services;
+using TubesKPL_KitaBelajar.Model;
+using TubesKPL_KitaBelajar.Services;
 using TubesKPL_KitaBelajar.Controllers;
 using System.Diagnostics;
 

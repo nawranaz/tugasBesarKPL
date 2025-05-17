@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using TubesKPL_KitaBelajar.Library.Model;
+using TubesKPL_KitaBelajar.Model;
 
 namespace TubesKPL_KitaBelajar.Controllers
 {
