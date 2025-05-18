@@ -98,7 +98,10 @@
             List<SoalLatihan> selectedSoalList = soalListByMatpel[selectedSubject];
             Shuffle(selectedSoalList);
 
-            for (int i = 0; i < selectedSoalList.Count; i++)
+            int benar = 0;
+            int total = selectedSoalList.Count;
+
+            for (int i = 0; i < total; i++)
             {
                 Console.WriteLine($"\nSoal {i + 1}: {selectedSoalList[i].Question}");
                 char[] abcd = { 'A', 'B', 'C', 'D' };
@@ -121,10 +124,35 @@
                 }
 
                 if (jawaban == jawabanList[i].Answer[0])
-                    Console.WriteLine("Selamat ! Anda Benar!");
+                {
+                    Console.WriteLine("Jawaban benar!");
+                    benar++;
+                }
                 else
                     Console.WriteLine($" Maaf, anda salah. Jawaban yang benar: {jawabanList[i].Answer}");
             }
+            int nilai = (int)((double)benar / total * 100);
+            Console.WriteLine($"\n=== Hasil Akhir ===");
+            Console.WriteLine($"Jawaban Benar : {benar}");
+            Console.WriteLine($"Jawaban Salah : {total - benar}");
+            Console.WriteLine($"Nilai Akhir   : {nilai}%");
+
+            // Simpan nilai ke file JSON dan
+            // cek apa sudah ada progres sebelumnya 
+            var existing = userProgressList.FirstOrDefault(p => p.NamaMateri == selectedSubject);
+            if (existing != null)
+            {
+                existing.Nilai = nilai; // update nilai lama
+            }
+            else
+            {
+                userProgressList.Add(new UserProgress
+                {
+                    NamaMateri = selectedSubject,
+                    Nilai = nilai
+                });
+            }
+            SaveDataToJson(userProgressList, "userProgress.json");
 
             currentState = State.COMPLETED;
         }
@@ -164,5 +192,17 @@
                 (list[n], list[k]) = (list[k], list[n]);
             }
         }
+
+        // Simpan progres user
+        private static void SaveDataToJson<T>(T data, string fileName)
+        {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", fileName);
+            string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(filePath, json);
+        }
+        
+        private static List<UserProgress> userProgressList = new();
+
+
     }
 }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using TubesKPL_KitaBelajar.Library.Model;
 
 namespace TubesKPL_KitaBelajar.Controllers
 {
@@ -18,6 +20,18 @@ namespace TubesKPL_KitaBelajar.Controllers
 
         public static void RunVideo()
         {
+            // menampilkan rekomendasi materi berdasarkan progres
+            var rekomendasiMateri = GetMateriRekomendasi();
+
+            if (rekomendasiMateri.Any())
+            {
+                Console.WriteLine("\n📌 Rekomendasi Materi untuk Diulang (berdasarkan nilai < 70):");
+                foreach (var materi in rekomendasiMateri)
+                {
+                    Console.WriteLine($"- {materi}");
+                }
+                Console.WriteLine("👉 Disarankan untuk menonton ulang video materi tersebut.\n");
+            }
             // Table-driven: daftar video disimpan dalam Dictionary berdasarkan kategori
             Dictionary<string, List<Video>> videoTable = new Dictionary<string, List<Video>>
             {
@@ -40,6 +54,13 @@ namespace TubesKPL_KitaBelajar.Controllers
                     {
                         new Video { Judul = "Sistem Pernapasan", Deskripsi = "Proses pernapasan manusia", FilePath = "video/pernapasan.mp4" },
                         new Video { Judul = "Fotosintesis", Deskripsi = "Proses fotosintesis pada tumbuhan", FilePath = "video/fotosintesis.mp4" }
+                    }
+                },
+                {
+                    "IPS", new List<Video>
+                    {
+                        new Video { Judul = "Sejarah Indonesia", Deskripsi = "Belajar sejarah Indonesia", FilePath = "video/sejarah.mp4" },
+                        new Video { Judul = "Geografi Dasar", Deskripsi = "Belajar geografi dasar", FilePath = "video/geografi.mp4" }
                     }
                 }
             };
@@ -94,6 +115,25 @@ namespace TubesKPL_KitaBelajar.Controllers
 
             Console.WriteLine("\nTekan apa saja untuk keluar...");
             Console.ReadKey();
+        }
+
+        private static List<string> GetMateriRekomendasi()
+        {
+            try
+            {
+                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "userProgress.json");
+                if (!File.Exists(path)) return new List<string>();
+
+                string json = File.ReadAllText(path);
+                var progressList = JsonSerializer.Deserialize<List<UserProgress>>(json);
+
+                var service = new RekomendasiMateri(progressList);
+                return service.GetRekomendasi();
+            }
+            catch
+            {
+                return new List<string>();
+            }
         }
     }
 }
