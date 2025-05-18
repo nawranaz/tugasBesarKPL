@@ -1,14 +1,17 @@
-﻿namespace TubesKPL_KitaBelajar.Controllers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Text.Json;
-    using TubesKPL_KitaBelajar.Model;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 
-    public class LatihanSoalController
+using TubesKPL_KitaBelajar.Library.Model;
+
+
+namespace TubesKPL_KitaBelajar.Controllers
+{
+    public static class LatihanSoalController
     {
         enum State { START, SELECT_SUBJECT, IN_PROGRESS, COMPLETED, EXIT };
+
         private static Dictionary<string, List<SoalLatihan>> soalListByMatpel;
         private static List<JawabanLatihan> jawabanList;
         private static string selectedSubject;
@@ -16,8 +19,8 @@
 
         public static void StartLatihan()
         {
-            soalListByMatpel = LoadSoalData("soal.json");
-            jawabanList = LoadJawabanData("jawaban.json");
+            soalListByMatpel = LoadDataFromJson<Dictionary<string, List<SoalLatihan>>>("soal.json");
+            jawabanList = LoadDataFromJson<List<JawabanLatihan>>("jawaban.json");
             currentState = State.START;
 
             while (currentState != State.EXIT)
@@ -42,50 +45,33 @@
 
         private static void ShowStartMenu()
         {
-            Console.WriteLine("=== LATIHAN SOAL ===");
+            Console.WriteLine("\n=== LATIHAN SOAL ===");
             Console.WriteLine("Tekan 'M' untuk memulai latihan atau 'E' untuk keluar.");
             string command = Console.ReadLine()?.ToUpper().Trim();
-            if (command == "M")
-            {
-                currentState = State.SELECT_SUBJECT;
-            }
-            else if (command == "E")
-            {
-                currentState = State.EXIT;
-            }
-            else
-            {
-                Console.WriteLine("Perintah tidak valid. Silakan coba lagi.");
-            }
+
+            if (command == "M") currentState = State.SELECT_SUBJECT;
+            else if (command == "E") currentState = State.EXIT;
+            else Console.WriteLine("Perintah tidak valid.");
         }
 
         private static void SelectSubject()
         {
-            Console.WriteLine("Pilih Mata Pelajaran:");
+            Console.WriteLine("\nPilih Mata Pelajaran:");
             Console.WriteLine("1. Matematika");
             Console.WriteLine("2. IPA");
             Console.WriteLine("3. Bahasa Inggris");
             Console.WriteLine("4. IPS");
             Console.Write("Masukkan pilihan (1-4): ");
-            string command = Console.ReadLine()?.Trim();
 
-            switch (command)
+            string input = Console.ReadLine()?.Trim();
+            switch (input)
             {
-                case "1":
-                    selectedSubject = "Matematika";
-                    break;
-                case "2":
-                    selectedSubject = "IPA";
-                    break;
-                case "3":
-                    selectedSubject = "Bahasa Inggris";
-                    break;
-                case "4":
-                    selectedSubject = "IPS";
-                    break;
+                case "1": selectedSubject = "Matematika"; break;
+                case "2": selectedSubject = "IPA"; break;
+                case "3": selectedSubject = "Bahasa Inggris"; break;
+                case "4": selectedSubject = "IPS"; break;
                 default:
-                    Console.WriteLine("Pilihan tidak valid. Silakan coba lagi.");
-                    return;
+                    Console.WriteLine("Pilihan tidak valid."); return;
             }
 
             currentState = State.IN_PROGRESS;
@@ -93,21 +79,24 @@
 
         private static void StartSoal()
         {
-            Console.WriteLine($"=== Latihan {selectedSubject} ===");
+            Console.WriteLine($"\n=== Latihan {selectedSubject} ===");
 
             List<SoalLatihan> selectedSoalList = soalListByMatpel[selectedSubject];
-            Shuffle(selectedSoalList);
 
             int benar = 0;
             int total = selectedSoalList.Count;
 
             for (int i = 0; i < total; i++)
             {
-                Console.WriteLine($"\nSoal {i + 1}: {selectedSoalList[i].Question}");
+
+                var soal = selectedSoalList[i];
+
+                Console.WriteLine($"\nSoal {i + 1}:\n{soal.Question}");
+
                 char[] abcd = { 'A', 'B', 'C', 'D' };
-                for (int j = 0; j < selectedSoalList[i].Options.Length; j++)
+                for (int j = 0; j < soal.Options.Length; j++)
                 {
-                    Console.WriteLine($"{abcd[j]}. {selectedSoalList[i].Options[j]}");
+                    Console.WriteLine($"{abcd[j]}. {soal.Options[j]}");
                 }
 
                 char jawaban;
@@ -120,7 +109,7 @@
                         jawaban = input[0];
                         break;
                     }
-                    Console.WriteLine("⚠️ Masukkan hanya A, B, C, atau D.");
+                    Console.WriteLine("Masukkan hanya A, B, C, atau D.");
                 }
 
                 if (jawaban == jawabanList[i].Answer[0])
@@ -129,7 +118,7 @@
                     benar++;
                 }
                 else
-                    Console.WriteLine($" Maaf, anda salah. Jawaban yang benar: {jawabanList[i].Answer}");
+                    Console.WriteLine($"Salah. Jawaban benar: {jawabanList[i].Answer}");
             }
             int nilai = (int)((double)benar / total * 100);
             Console.WriteLine($"\n=== Hasil Akhir ===");
@@ -161,24 +150,15 @@
         {
             Console.WriteLine("Latihan Selesai! Tekan 'Q' untuk keluar.");
             string command = Console.ReadLine()?.ToUpper().Trim();
-            if (command == "Q")
-            {
-                currentState = State.EXIT;
-            }
+            if (command == "Q") currentState = State.EXIT;
         }
 
-        private static Dictionary<string, List<SoalLatihan>> LoadSoalData(string fileName)
+        // ✅ Generic loader
+        private static T LoadDataFromJson<T>(string fileName)
         {
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", fileName);
-            var jsonString = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<Dictionary<string, List<SoalLatihan>>>(jsonString);
-        }
-
-        private static List<JawabanLatihan> LoadJawabanData(string fileName)
-        {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", fileName);
-            var jsonString = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<List<JawabanLatihan>>(jsonString);
+            string json = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<T>(json);
         }
 
         private static void Shuffle<T>(List<T> list)

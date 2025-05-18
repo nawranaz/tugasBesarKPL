@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-namespace TubesKPL_KitaBelajar.Services
+namespace TubesKPL_KitaBelajar.Library.Services
 {
     public static class ModulService
     {

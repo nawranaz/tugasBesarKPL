@@ -1,13 +1,15 @@
 ﻿using System;
-using TubesKPL_KitaBelajar.Model;
+using TubesKPL_KitaBelajar.Library.Model;
+using TubesKPL_KitaBelajar.Library.Services;
+using TubesKPL_KitaBelajar.Library.Model;
 
-namespace TubesKPL_KitaBelajar.Services
+namespace TubesKPL_KitaBelajar.Library.Services
 {
     public class AuthService : IAuthService
     {
         public bool Login(User user)
         {
-            
+
             if (user == null)
                 throw new ArgumentNullException(nameof(user), "User tidak boleh null");
 
@@ -17,7 +19,7 @@ namespace TubesKPL_KitaBelajar.Services
             if (string.IsNullOrWhiteSpace(user.Password))
                 throw new ArgumentException("Password tidak boleh kosong");
 
-            
+
             string validUsername = Environment.GetEnvironmentVariable("VALID_USERNAME") ?? "kelompok2";
             string validPassword = Environment.GetEnvironmentVariable("VALID_PASSWORD") ?? "suksestubes";
 

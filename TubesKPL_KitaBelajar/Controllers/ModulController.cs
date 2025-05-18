@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Linq;
-using TubesKPL_KitaBelajar.Services;
-using TubesKPL_KitaBelajar.Model;
 using System.Collections.Generic;
-<<<<<<< Updated upstream
-=======
 using TubesKPL_KitaBelajar.Library.Services;
 using TubesKPL_KitaBelajar.Library.Model;
 using System.Text.Json;
-
->>>>>>> Stashed changes
 
 namespace TubesKPL_KitaBelajar.Controllers
 {
@@ -41,22 +35,32 @@ namespace TubesKPL_KitaBelajar.Controllers
                 .Select(m => m.MataPelajaran)
                 .Distinct()
                 .ToList();
-
+            Console.WriteLine("1. Cari Modul Pembelajaran berdasarkan kata kunci konten atau judul");
             for (int i = 0; i < mapelUnik.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {mapelUnik[i]}");
+                Console.WriteLine($"{i + 2}. {mapelUnik[i]}");
             }
 
             Console.Write("\nPilih nomor mata pelajaran: ");
             string input = Console.ReadLine()?.Trim();
 
-            if (!int.TryParse(input, out int pilihan) || pilihan < 1 || pilihan > mapelUnik.Count)
+            int maksimumPilihan = mapelUnik.Count + 1;
+
+            if (!int.TryParse(input, out int pilihan) || pilihan < 1 || pilihan > maksimumPilihan)
             {
                 Console.WriteLine("Pilihan tidak valid.");
                 return;
             }
 
-            string mapelDipilih = mapelUnik[pilihan - 1];
+
+            // Jika pengguna memilih opsi 1, lakukan pencarian modul
+            if (pilihan == 1)
+            {
+                CariModulDariInput();
+                return;
+            }
+
+            string mapelDipilih = mapelUnik[pilihan - 2];
 
             var modulTerkait = modulList
                 .Where(m => string.Equals(m.MataPelajaran, mapelDipilih, StringComparison.OrdinalIgnoreCase))
@@ -70,8 +74,6 @@ namespace TubesKPL_KitaBelajar.Controllers
                 Console.WriteLine($"Konten    : {modul.Konten}");
             }
         }
-<<<<<<< Updated upstream
-=======
 
         public static void CariModulDariInput()
         {
@@ -136,7 +138,5 @@ namespace TubesKPL_KitaBelajar.Controllers
                 return new List<string>();
             }
         }
-
->>>>>>> Stashed changes
     }
 }

@@ -7,6 +7,10 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Library\Library.csproj" />
+	</ItemGroup>
+
 	
 	<ItemGroup>
 		<Content Update="Data\*.json">
@@ -14,6 +18,12 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
+	  <None Update="Data\config.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\index.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Data\jawaban.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
