@@ -44,7 +44,7 @@ namespace TubesKPL_KitaBelajar.Controllers
                 }
             };
 
-            Console.WriteLine("=== Video ===");
+            Console.WriteLine("\n=== Video ===");
             Console.WriteLine("Kategori Tersedia: ");
             int num = 1;
             foreach (var kategori in videoTable.Keys)
@@ -53,7 +53,7 @@ namespace TubesKPL_KitaBelajar.Controllers
                 num++;
             }
 
-            Console.Write("\nMasukkan kategori video: ");
+            Console.Write("Masukkan kategori video: ");
             string inputKategori = Console.ReadLine();
             int inputKategoriIndex;
             if (int.TryParse(inputKategori, out inputKategoriIndex) && inputKategoriIndex >= 1 && inputKategoriIndex <= videoTable.Count)
@@ -64,7 +64,7 @@ namespace TubesKPL_KitaBelajar.Controllers
             if (videoTable.ContainsKey(inputKategori))
             {
                 var videos = videoTable[inputKategori];
-                Console.WriteLine($"\nDaftar video untuk kategori '{inputKategori}':\n");
+                Console.WriteLine($"\nDaftar video untuk kategori '{inputKategori}':");
 
                 for (int i = 0; i < videos.Count; i++)
                 {

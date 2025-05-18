@@ -1,8 +1,12 @@
-﻿using System;
-using TubesKPL_KitaBelajar.Model;
-using TubesKPL_KitaBelajar.Services;
+using System;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
+
 using TubesKPL_KitaBelajar.Controllers;
 using System.Diagnostics;
+using TubesKPL_KitaBelajar.Library.Model;
+using TubesKPL_KitaBelajar.Library.Services;
 
 namespace TubesKPL_KitaBelajar
 {
@@ -16,11 +20,12 @@ namespace TubesKPL_KitaBelajar
             MODUL,
             VIDEO,
             PENGINGAT,
+            FORUM,
             CATATAN,
             EXIT
         }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             AppState state = AppState.LOGIN;
             User user = null;
@@ -35,7 +40,6 @@ namespace TubesKPL_KitaBelajar
                         {
                             user = GetUserInput();
 
-                            
                             if (string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.Password))
                             {
                                 Console.WriteLine("Username atau password tidak boleh kosong.");
@@ -45,7 +49,6 @@ namespace TubesKPL_KitaBelajar
 
                             bool result = authService.Login(user);
                             Console.WriteLine(result ? "\nLogin berhasil!\n" : "\nLogin gagal.");
-
                             state = result ? AppState.MENU : AppState.EXIT;
                         }
                         catch (Exception ex)
@@ -61,13 +64,13 @@ namespace TubesKPL_KitaBelajar
                         Console.WriteLine("2. Modul Pembelajaran");
                         Console.WriteLine("3. Video Pembelajaran");
                         Console.WriteLine("4. Notifikasi Pengingat");
-                        Console.WriteLine("5. Catatan");
+                        Console.WriteLine("5. Forum Diskusi");
+                        Console.WriteLine("6. Catatan");
                         Console.WriteLine("Q. Keluar");
                         Console.Write("Pilih menu: ");
 
                         string input = Console.ReadLine()?.Trim().ToUpper();
 
-                        
                         if (string.IsNullOrEmpty(input))
                         {
                             Console.WriteLine("Input tidak boleh kosong.");
@@ -81,45 +84,28 @@ namespace TubesKPL_KitaBelajar
                             "2" => AppState.MODUL,
                             "3" => AppState.VIDEO,
                             "4" => AppState.PENGINGAT,
-                            "5" => AppState.CATATAN,
+                            "5" => AppState.FORUM,
+                            "6" => AppState.CATATAN,
                             "Q" => AppState.EXIT,
                             _ => AppState.MENU
                         };
                         break;
 
                     case AppState.LATIHAN_SOAL:
-                        try
-                        {
-                            LatihanSoalController.StartLatihan();
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Terjadi kesalahan: {ex.Message}");
-                        }
+                        try { LatihanSoalController.StartLatihan(); }
+                        catch (Exception ex) { Console.WriteLine($"Terjadi kesalahan: {ex.Message}"); }
                         state = AppState.MENU;
                         break;
 
                     case AppState.MODUL:
-                        try
-                        {
-                            ModulController.TampilkanModul();
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Terjadi kesalahan saat menampilkan modul: {ex.Message}");
-                        }
+                        try { ModulController.TampilkanModul(); }
+                        catch (Exception ex) { Console.WriteLine($"Kesalahan modul: {ex.Message}"); }
                         state = AppState.MENU;
                         break;
 
                     case AppState.VIDEO:
-                        try
-                        {
-                            VideoEdukasi.RunVideo();
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine($"Terjadi kesalahan saat menjalankan video: {ex.Message}");
-                        }
+                        try { VideoEdukasi.RunVideo(); }
+                        catch (Exception ex) { Console.WriteLine($"Kesalahan video: {ex.Message}"); }
                         state = AppState.MENU;
                         break;
 
@@ -127,18 +113,14 @@ namespace TubesKPL_KitaBelajar
                         try
                         {
                             Console.Write("Masukkan bulan (1-12): ");
-                            string bulanStr = Console.ReadLine();
-
-                            if (!int.TryParse(bulanStr, out int bulan) || bulan < 1 || bulan > 12)
+                            if (!int.TryParse(Console.ReadLine(), out int bulan) || bulan < 1 || bulan > 12)
                             {
                                 Console.WriteLine("Bulan tidak valid.");
                                 break;
                             }
 
                             Console.Write("Masukkan tahun: ");
-                            string tahunStr = Console.ReadLine();
-
-                            if (!int.TryParse(tahunStr, out int tahun))
+                            if (!int.TryParse(Console.ReadLine(), out int tahun))
                             {
                                 Console.WriteLine("Tahun tidak valid.");
                                 break;
@@ -146,9 +128,18 @@ namespace TubesKPL_KitaBelajar
 
                             NotifikasiPengingat.TampilkanPengingat(bulan, tahun);
                         }
+                        catch (Exception ex) { Console.WriteLine($"Kesalahan pengingat: {ex.Message}"); }
+                        state = AppState.MENU;
+                        break;
+
+                    case AppState.FORUM:
+                        try
+                        {
+                            await KirimKomentarKeAPI(user.Username);
+                        }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Kesalahan pada pengingat: {ex.Message}");
+                            Console.WriteLine($"Gagal kirim komentar: {ex.Message}");
                         }
                         state = AppState.MENU;
                         break;
@@ -166,7 +157,6 @@ namespace TubesKPL_KitaBelajar
                         break;
                 }
 
-                
                 Debug.Assert(Enum.IsDefined(typeof(AppState), state), "State tidak valid!");
             }
 
@@ -178,15 +168,39 @@ namespace TubesKPL_KitaBelajar
             Console.WriteLine("=== LOGIN ===");
             Console.Write("Masukkan username: ");
             string username = Console.ReadLine();
-
             Console.Write("Masukkan password: ");
             string password = Console.ReadLine();
+            return new User { Username = username, Password = password };
+        }
 
-            return new User
+        static async Task KirimKomentarKeAPI(string username)
+        {
+            Console.WriteLine("\n=== Forum Diskusi ===");
+            Console.Write("Masukkan komentar: ");
+            string isi = Console.ReadLine();
+
+            Komentar komentar = new Komentar
             {
                 Username = username,
-                Password = password
+                IsiKomentar = isi,
+                Tanggal = DateTime.Now
             };
+
+            using var client = new HttpClient();
+            var url = "https://localhost:7173/api/forum";
+
+            try
+            {
+                var response = await client.PostAsJsonAsync(url, komentar);
+                if (response.IsSuccessStatusCode)
+                    Console.WriteLine("Komentar berhasil dikirim ke forum!");
+                else
+                    Console.WriteLine($"Gagal kirim komentar. Status: {response.StatusCode}");
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"Gagal koneksi ke API: {ex.Message}");
+            }
         }
     }
 }

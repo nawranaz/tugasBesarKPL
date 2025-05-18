@@ -62,10 +62,10 @@ namespace TubesKPL_KitaBelajar.Controllers
 
         }
 
-        private static  int GetHariPerBulan(int bulan, int tahun)
+        private static int GetHariPerBulan(int bulan, int tahun)
         {
             int[] hariPerBulan = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-            return(bulan == 2 && DateTime.IsLeapYear(tahun)) ? 29 : hariPerBulan[bulan - 1];
+            return (bulan == 2 && DateTime.IsLeapYear(tahun)) ? 29 : hariPerBulan[bulan - 1];
         }
     }
 }
