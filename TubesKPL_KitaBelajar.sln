@@ -13,12 +13,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesnew", "Tesnew\Tesnew.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesLatihanSoal", "TesLatihanSoal\TesLatihanSoal.csproj", "{02EAB79A-7EF3-42DA-A701-0BC5FE3B6343}"
 EndProject
+ alfian
+
+
+
+ master
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNotifikasiPengingat", "TestNotifikasiPengingat\TestNotifikasiPengingat.csproj", "{DE600FC0-0D82-4F70-BD4B-4CF55A9AE7F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModulControllerTest", "ModulControllerTest\ModulControllerTest.csproj", "{FB71641C-F21F-4EE5-9E74-5BBE99B139A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModulSearchServiceTest", "ModulSearchServiceTest\ModulSearchServiceTest.csproj", "{17EE6B3C-2D71-479F-8A19-B9EF35BFA586}"
 EndProject
+ alfian
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoEdukasiTest", "VideoEdukasiTest\VideoEdukasiTest.csproj", "{A5B521A4-66C8-48B1-920B-80907B52666F}"
+EndProject
+
+
+ master
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +56,11 @@ Global
 		{02EAB79A-7EF3-42DA-A701-0BC5FE3B6343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02EAB79A-7EF3-42DA-A701-0BC5FE3B6343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02EAB79A-7EF3-42DA-A701-0BC5FE3B6343}.Release|Any CPU.Build.0 = Release|Any CPU
+ alfian
+
+
+
+ master
 		{DE600FC0-0D82-4F70-BD4B-4CF55A9AE7F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DE600FC0-0D82-4F70-BD4B-4CF55A9AE7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE600FC0-0D82-4F70-BD4B-4CF55A9AE7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +73,12 @@ Global
 		{17EE6B3C-2D71-479F-8A19-B9EF35BFA586}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17EE6B3C-2D71-479F-8A19-B9EF35BFA586}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17EE6B3C-2D71-479F-8A19-B9EF35BFA586}.Release|Any CPU.Build.0 = Release|Any CPU
+ alfian
+		{A5B521A4-66C8-48B1-920B-80907B52666F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B521A4-66C8-48B1-920B-80907B52666F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5B521A4-66C8-48B1-920B-80907B52666F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B521A4-66C8-48B1-920B-80907B52666F}.Release|Any CPU.Build.0 = Release|Any CPU
+ master
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

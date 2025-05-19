@@ -8,7 +8,7 @@ using TubesKPL_KitaBelajar.Library.Model;
 
 namespace TubesKPL_KitaBelajar.Controllers
 {
-    class VideoEdukasi
+    public class VideoEdukasi
     {
         // Representasi data video menggunakan class
         public class Video
@@ -25,12 +25,12 @@ namespace TubesKPL_KitaBelajar.Controllers
 
             if (rekomendasiMateri.Any())
             {
-                Console.WriteLine("\n📌 Rekomendasi Materi untuk Diulang (berdasarkan nilai < 70):");
+                Console.WriteLine("\nRekomendasi Materi untuk Diulang (berdasarkan nilai < 70):");
                 foreach (var materi in rekomendasiMateri)
                 {
                     Console.WriteLine($"- {materi}");
                 }
-                Console.WriteLine("👉 Disarankan untuk menonton ulang video materi tersebut.\n");
+                Console.WriteLine("Disarankan untuk menonton ulang video materi tersebut.\n");
             }
             // Table-driven: daftar video disimpan dalam Dictionary berdasarkan kategori
             Dictionary<string, List<Video>> videoTable = new Dictionary<string, List<Video>>
@@ -114,10 +114,10 @@ namespace TubesKPL_KitaBelajar.Controllers
             }
 
             Console.WriteLine("\nTekan apa saja untuk keluar...");
-            Console.ReadKey();
+            Console.ReadLine();
         }
 
-        private static List<string> GetMateriRekomendasi()
+        public static List<string> GetMateriRekomendasi()
         {
             try
             {
