@@ -22,12 +22,12 @@ namespace TubesKPL_KitaBelajar.Controllers
             var rekomendasiMateri = GetMateriRekomendasi();
             if (rekomendasiMateri.Any())
             {
-                Console.WriteLine("\n📌 Rekomendasi Materi untuk Diulang (berdasarkan hasil latihan soal):");
+                Console.WriteLine("\nRekomendasi Materi untuk Diulang (berdasarkan hasil latihan soal):");
                 foreach (var materi in rekomendasiMateri)
                 {
                     Console.WriteLine($"- {materi}");
                 }
-                Console.WriteLine("👉 Disarankan untuk membaca ulang modul materi tersebut.\n");
+                Console.WriteLine("Disarankan untuk membaca ulang modul materi tersebut.\n");
             }
 
             Console.WriteLine("\n Daftar Mata Pelajaran yang Tersedia");

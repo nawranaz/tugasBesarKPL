@@ -26,7 +26,7 @@ namespace TubesKPL_KitaBelajar.Library.Model
                 if (string.IsNullOrEmpty(progress.NamaMateri))
                     continue;
 
-                if (progress.Nilai < 66) // batas lulus 66
+                if (progress.Nilai < 70) // batas lulus 70
                 {
                     rekomendasi.Add(progress.NamaMateri);
                 }
