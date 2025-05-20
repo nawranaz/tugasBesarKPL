@@ -32,6 +32,7 @@ namespace TubesKPL_KitaBelajar.Controllers
                 }
                 Console.WriteLine("Disarankan untuk menonton ulang video materi tersebut.\n");
             }
+
             // Table-driven: daftar video disimpan dalam Dictionary berdasarkan kategori
             Dictionary<string, List<Video>> videoTable = new Dictionary<string, List<Video>>
             {
