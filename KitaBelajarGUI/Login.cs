@@ -1,63 +1,68 @@
-using TubesKPL_KitaBelajar.Library.Services;
 using TubesKPL_KitaBelajar;
 using TubesKPL_KitaBelajar.Library.Model;
+using TubesKPL_KitaBelajar.Library.Services;
 
 namespace KitaBelajarGUI
 {
     public partial class Login : Form
     {
-        // Konstruktor form login
+        // Konstruktor Form Login
         public Login()
         {
             InitializeComponent();
         }
 
-        // Event handler saat tombol "Masuk" ditekan
-        private void TombolMasuk_Click(object sender, EventArgs e)
+        // Event handler untuk tombol "Masuk"
+        private void ButtonLogin_Click(object sender, EventArgs e)
         {
-            // Ambil input dari TextBox dan buang spasi berlebih
-            string username = textBox1.Text.Trim();
-            string password = textBox2.Text.Trim();
+            // Ambil dan bersihkan input username dan password
+            string username = textBoxUsername.Text.Trim();
+            string password = textBoxPassword.Text.Trim();
 
             // Validasi input tidak boleh kosong
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                hasilLogin.Text = "Username dan password harus diisi!";
-                hasilLogin.Visible = true;
+                labelLoginResult.Text = "Username dan password harus diisi!";
+                labelLoginResult.Visible = true;
                 return;
             }
 
-            // Buat objek user berdasarkan input
-            var user = new User { Username = username, Password = password };
+            // Buat objek user dari input pengguna
+            var user = new User
+            {
+                Username = username,
+                Password = password
+            };
 
-            // Buat instance AuthService (pengecekan login)
+            // Inisialisasi service autentikasi
             var authService = new AuthService();
 
             try
             {
-                // Coba login melalui AuthService
+                // Proses autentikasi login
                 if (authService.Login(user))
                 {
-                    // Login berhasil
-                    Program.LoggedInUser = user; // Simpan user yang login
-                    hasilLogin.Visible = false;
+                    // Jika berhasil, simpan user ke program utama
+                    Program.LoggedInUser = user;
 
-                    // Pindah state ke MENU
+                    // Pindah ke state MENU aplikasi
                     Program.CurrentState = Program.AppState.MENU;
-                    this.Close(); // Tutup form login
+
+                    labelLoginResult.Visible = false;
+                    Close(); // Tutup form login
                 }
                 else
                 {
                     // Jika gagal login, tampilkan pesan kesalahan
-                    hasilLogin.Text = "Username atau password salah!";
-                    hasilLogin.Visible = true;
+                    labelLoginResult.Text = "Username atau password salah!";
+                    labelLoginResult.Visible = true;
                 }
             }
             catch (Exception ex)
             {
-                // Tangani error tidak terduga (misal koneksi API atau file JSON corrupt)
-                hasilLogin.Text = $"Error: {ex.Message}";
-                hasilLogin.Visible = true;
+                // Tangani exception tak terduga, tampilkan pesan error
+                labelLoginResult.Text = $"Error: {ex.Message}";
+                labelLoginResult.Visible = true;
             }
         }
     }
