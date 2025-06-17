@@ -1,188 +1,239 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
-
 using TubesKPL_KitaBelajar.Library.Model;
-
 
 namespace TubesKPL_KitaBelajar.Controllers
 {
-    public static class LatihanSoalController
+    public class LatihanSoalController
     {
-        enum State { START, SELECT_SUBJECT, IN_PROGRESS, COMPLETED, EXIT };
+        // Menggunakan enum untuk representasi state dengan jelas
+        private enum State { START, SELECT_SUBJECT, IN_PROGRESS, COMPLETED, EXIT }
 
-        private static Dictionary<string, List<SoalLatihan>> soalListByMatpel;
-        private static List<JawabanLatihan> jawabanList;
-        private static string selectedSubject;
-        private static State currentState;
+        // Struktur data utama
+        private Dictionary<string, List<SoalLatihan>> soalListByMatpel;
+        private List<JawabanLatihan> jawabanList;
+        private List<UserProgress> userProgressList;
 
-        public static void StartLatihan()
+        private string selectedSubject;
+        private State currentState;
+        private int currentIndex;
+        private int jumlahBenar;
+        private List<SoalLatihan> soalAktif;
+
+        // Delegasi: memisahkan logika controller dengan tampilan (UI)
+        public Action<string> ShowToUser;
+        public Func<string> GetUserInput;
+        public Action<string, string[]> ShowSoalKeUser;
+        public Action<int, int, int> TampilkanHasil;
+
+        // Hindari magic string: mapping input angka ke nama pelajaran
+        private static readonly Dictionary<string, string> KodeMapel = new()
         {
-            soalListByMatpel = LoadDataFromJson<Dictionary<string, List<SoalLatihan>>>("soal.json");
-            jawabanList = LoadDataFromJson<List<JawabanLatihan>>("jawaban.json");
+            { "1", "Matematika" },
+            { "2", "IPA" },
+            { "3", "Bahasa Inggris" },
+            { "4", "IPS" }
+        };
+
+        public LatihanSoalController()
+        {
+            LoadData();
+            userProgressList = new List<UserProgress>();
             currentState = State.START;
+        }
 
-            while (currentState != State.EXIT)
+        // Entry point latihan
+        public void StartLatihan() => RunNextState();
+
+        // Automata state machine untuk transisi antar tahap
+        public void RunNextState()
+        {
+            switch (currentState)
             {
-                switch (currentState)
-                {
-                    case State.START:
-                        ShowStartMenu();
-                        break;
-                    case State.SELECT_SUBJECT:
-                        SelectSubject();
-                        break;
-                    case State.IN_PROGRESS:
-                        StartSoal();
-                        break;
-                    case State.COMPLETED:
-                        ShowCompletionMessage();
-                        break;
-                }
+                case State.START:
+                    ShowStartMenu(); break;
+                case State.SELECT_SUBJECT:
+                    SelectSubjectInteractive(); break;
+                case State.IN_PROGRESS:
+                    TampilkanSoal(); break;
+                case State.COMPLETED:
+                    Selesai(); break;
             }
         }
 
-        private static void ShowStartMenu()
+        // Menampilkan menu awal
+        private void ShowStartMenu()
         {
-            Console.WriteLine("\n=== LATIHAN SOAL ===");
-            Console.WriteLine("Tekan 'M' untuk memulai latihan atau 'E' untuk keluar.");
-            string command = Console.ReadLine()?.ToUpper().Trim();
+            ShowToUser?.Invoke("=== LATIHAN SOAL ===\nTekan 'M' untuk memulai atau 'E' untuk keluar.");
+            var command = GetUserInput?.Invoke()?.ToUpper()?.Trim();
 
-            if (command == "M") currentState = State.SELECT_SUBJECT;
-            else if (command == "E") currentState = State.EXIT;
-            else Console.WriteLine("Perintah tidak valid.");
+            if (string.IsNullOrEmpty(command)) return;
+
+            // Gunakan switch expression modern untuk efisiensi
+            currentState = command switch
+            {
+                "M" => State.SELECT_SUBJECT,
+                "E" => State.EXIT,
+                _ => currentState
+            };
+
+            RunNextState();
         }
 
-        private static void SelectSubject()
+        // Mode interaktif untuk CLI
+        private void SelectSubjectInteractive()
         {
-            Console.WriteLine("\nPilih Mata Pelajaran:");
-            Console.WriteLine("1. Matematika");
-            Console.WriteLine("2. IPA");
-            Console.WriteLine("3. Bahasa Inggris");
-            Console.WriteLine("4. IPS");
-            Console.Write("Masukkan pilihan (1-4): ");
+            ShowToUser?.Invoke("Pilih Mata Pelajaran:\n1. Matematika\n2. IPA\n3. Bahasa Inggris\n4. IPS");
+            var input = GetUserInput?.Invoke()?.Trim();
 
-            string input = Console.ReadLine()?.Trim();
-            switch (input)
+            if (string.IsNullOrEmpty(input)) return;
+
+            // Validasi input dan hindari nested switch-case
+            if (!KodeMapel.TryGetValue(input, out selectedSubject) || !soalListByMatpel.ContainsKey(selectedSubject))
             {
-                case "1": selectedSubject = "Matematika"; break;
-                case "2": selectedSubject = "IPA"; break;
-                case "3": selectedSubject = "Bahasa Inggris"; break;
-                case "4": selectedSubject = "IPS"; break;
-                default:
-                    Console.WriteLine("Pilihan tidak valid."); return;
+                ShowToUser?.Invoke("Pilihan tidak valid.");
+                return;
             }
 
+            MulaiSoal();
+        }
+
+        // Untuk penggunaan GUI (langsung dari tombol)
+        public void SelectSubject(string subject)
+        {
+            if (string.IsNullOrWhiteSpace(subject) || !soalListByMatpel.ContainsKey(subject))
+            {
+                ShowToUser?.Invoke("Mata pelajaran tidak ditemukan.");
+                return;
+            }
+
+            selectedSubject = subject;
+            MulaiSoal();
+        }
+
+        // Menginisialisasi soal dan state
+        private void MulaiSoal()
+        {
+            soalAktif = soalListByMatpel[selectedSubject];
+            currentIndex = 0;
+            jumlahBenar = 0;
             currentState = State.IN_PROGRESS;
+            RunNextState();
         }
 
-        private static void StartSoal()
+        // Untuk GUI menampilkan soal secara manual
+        public SoalLatihan GetCurrentQuestion()
         {
-            Console.WriteLine($"\n=== Latihan {selectedSubject} ===");
+            return (currentIndex < soalAktif.Count) ? soalAktif[currentIndex] : null;
+        }
 
-            List<SoalLatihan> selectedSoalList = soalListByMatpel[selectedSubject];
-
-            int benar = 0;
-            int total = selectedSoalList.Count;
-
-            for (int i = 0; i < total; i++)
+        // Menampilkan soal ke pengguna
+        private void TampilkanSoal()
+        {
+            if (currentIndex < soalAktif.Count)
             {
-
-                var soal = selectedSoalList[i];
-
-                Console.WriteLine($"\nSoal {i + 1}:\n{soal.Question}");
-
-                char[] abcd = { 'A', 'B', 'C', 'D' };
-                for (int j = 0; j < soal.Options.Length; j++)
-                {
-                    Console.WriteLine($"{abcd[j]}. {soal.Options[j]}");
-                }
-
-                char jawaban;
-                while (true)
-                {
-                    Console.Write("Jawaban (A–D): ");
-                    string input = Console.ReadLine()?.ToUpper()?.Trim();
-                    if (input is "A" or "B" or "C" or "D")
-                    {
-                        jawaban = input[0];
-                        break;
-                    }
-                    Console.WriteLine("Masukkan hanya A, B, C, atau D.");
-                }
-
-                if (jawaban == jawabanList[i].Answer[0])
-                {
-                    Console.WriteLine("Jawaban benar!");
-                    benar++;
-                }
-                else
-                    Console.WriteLine($"Salah. Jawaban benar: {jawabanList[i].Answer}");
-            }
-            int nilai = (int)((double)benar / total * 100);
-            Console.WriteLine($"\n=== Hasil Akhir ===");
-            Console.WriteLine($"Jawaban Benar : {benar}");
-            Console.WriteLine($"Jawaban Salah : {total - benar}");
-            Console.WriteLine($"Nilai Akhir   : {nilai}%");
-
-            // Simpan nilai ke file JSON dan
-            // cek apa sudah ada progres sebelumnya 
-            var existing = userProgressList.FirstOrDefault(p => p.NamaMateri == selectedSubject);
-            if (existing != null)
-            {
-                existing.Nilai = nilai; // update nilai lama
+                var soal = soalAktif[currentIndex];
+                ShowSoalKeUser?.Invoke(soal.Question, soal.Options);
             }
             else
             {
-                userProgressList.Add(new UserProgress
-                {
-                    NamaMateri = selectedSubject,
-                    Nilai = nilai
-                });
+                currentState = State.COMPLETED;
+                RunNextState();
             }
+        }
+
+        // Proses penilaian dan feedback akhir
+        private void Selesai()
+        {
+            int total = soalAktif.Count;
+            int nilai = (int)((double)jumlahBenar / total * 100);
+
+            TampilkanHasil?.Invoke(jumlahBenar, total - jumlahBenar, nilai);
+
+            // Update atau tambahkan progress user
+            var existing = userProgressList.FirstOrDefault(p => p.NamaMateri == selectedSubject);
+            if (existing != null)
+                existing.Nilai = nilai;
+            else
+                userProgressList.Add(new UserProgress { NamaMateri = selectedSubject, Nilai = nilai });
+
             SaveDataToJson(userProgressList, "userProgress.json");
-
-            currentState = State.COMPLETED;
+            currentState = State.EXIT;
         }
 
-        private static void ShowCompletionMessage()
+        // Mengevaluasi jawaban pengguna
+        public void KirimJawaban(string jawabanUser)
         {
-            Console.WriteLine("Latihan Selesai! Tekan 'Q' untuk keluar.");
-            string command = Console.ReadLine()?.ToUpper().Trim();
-            if (command == "Q") currentState = State.EXIT;
+            if (currentState != State.IN_PROGRESS || currentIndex >= soalAktif.Count)
+                return;
+
+            if (string.IsNullOrWhiteSpace(jawabanUser))
+            {
+                ShowToUser?.Invoke("Jawaban tidak boleh kosong.");
+                return;
+            }
+
+            // Ambil huruf pertama untuk dibandingkan (case-insensitive)
+            char jawabanBenar = jawabanList[currentIndex].Answer.FirstOrDefault();
+            char jawabanUserChar = char.ToUpper(jawabanUser[0]);
+
+            if (jawabanUserChar == jawabanBenar)
+            {
+                ShowToUser?.Invoke("Jawaban benar!");
+                jumlahBenar++;
+            }
+            else
+            {
+                ShowToUser?.Invoke($"Salah. Jawaban benar: {jawabanBenar}");
+            }
+
+            currentIndex++;
+            RunNextState();
         }
 
-        // ✅ Generic loader
-        private static T LoadDataFromJson<T>(string fileName)
+        // Load soal dan jawaban dari file JSON
+        private void LoadData()
+        {
+            soalListByMatpel = LoadDataFromJson<Dictionary<string, List<SoalLatihan>>>("soal.json") ?? new();
+            jawabanList = LoadDataFromJson<List<JawabanLatihan>>("jawaban.json") ?? new();
+        }
+
+        // Fungsi reusable untuk load JSON
+        private T LoadDataFromJson<T>(string fileName)
         {
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", fileName);
-            string json = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<T>(json);
-        }
+            if (!File.Exists(filePath)) return default;
 
-        private static void Shuffle<T>(List<T> list)
-        {
-            Random rng = new();
-            int n = list.Count;
-            while (n > 1)
+            try
             {
-                n--;
-                int k = rng.Next(n + 1);
-                (list[n], list[k]) = (list[k], list[n]);
+                string json = File.ReadAllText(filePath);
+                return JsonSerializer.Deserialize<T>(json);
+            }
+            catch (Exception ex)
+            {
+                // Hindari crash saat gagal baca file
+                ShowToUser?.Invoke($"Gagal memuat data dari {fileName}: {ex.Message}");
+                return default;
             }
         }
 
-        // Simpan progres user
-        private static void SaveDataToJson<T>(T data, string fileName)
+        // Fungsi reusable untuk simpan data ke JSON
+        private void SaveDataToJson<T>(T data, string fileName)
         {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", fileName);
-            string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(filePath, json);
+            try
+            {
+                string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", fileName);
+                string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(filePath, json);
+            }
+            catch (Exception ex)
+            {
+                // Tangani error saat simpan data
+                ShowToUser?.Invoke($"Gagal menyimpan data: {ex.Message}");
+            }
         }
-        
-        private static List<UserProgress> userProgressList = new();
-
-
     }
 }

@@ -15,6 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesLatihanSoal", "TesLatiha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestNotifikasiPengingat", "TestNotifikasiPengingat\TestNotifikasiPengingat.csproj", "{DE600FC0-0D82-4F70-BD4B-4CF55A9AE7F8}"
 EndProject
+<<<<<<< Updated upstream
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModulControllerTest", "ModulControllerTest\ModulControllerTest.csproj", "{FB71641C-F21F-4EE5-9E74-5BBE99B139A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModulSearchServiceTest", "ModulSearchServiceTest\ModulSearchServiceTest.csproj", "{17EE6B3C-2D71-479F-8A19-B9EF35BFA586}"
@@ -22,6 +23,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoEdukasiTest", "VideoEdukasiTest\VideoEdukasiTest.csproj", "{A5B521A4-66C8-48B1-920B-80907B52666F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RekomendasiTest", "RekomendasiTest\RekomendasiTest.csproj", "{7EB8E7B3-AACE-400C-88E9-6C387B0547F5}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLogin", "TestLogin\TestLogin.csproj", "{A2F23C67-7953-479F-8A43-B673621482CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KitaBelajarGUI", "KitaBelajarGUI\KitaBelajarGUI.csproj", "{96DFAF99-AC48-48DB-A7F9-A03EAC3C19D2}"
+>>>>>>> Stashed changes
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +59,7 @@ Global
 		{DE600FC0-0D82-4F70-BD4B-4CF55A9AE7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE600FC0-0D82-4F70-BD4B-4CF55A9AE7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE600FC0-0D82-4F70-BD4B-4CF55A9AE7F8}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< Updated upstream
 		{FB71641C-F21F-4EE5-9E74-5BBE99B139A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB71641C-F21F-4EE5-9E74-5BBE99B139A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB71641C-F21F-4EE5-9E74-5BBE99B139A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +76,16 @@ Global
 		{7EB8E7B3-AACE-400C-88E9-6C387B0547F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EB8E7B3-AACE-400C-88E9-6C387B0547F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EB8E7B3-AACE-400C-88E9-6C387B0547F5}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{A2F23C67-7953-479F-8A43-B673621482CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2F23C67-7953-479F-8A43-B673621482CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2F23C67-7953-479F-8A43-B673621482CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2F23C67-7953-479F-8A43-B673621482CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96DFAF99-AC48-48DB-A7F9-A03EAC3C19D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96DFAF99-AC48-48DB-A7F9-A03EAC3C19D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96DFAF99-AC48-48DB-A7F9-A03EAC3C19D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96DFAF99-AC48-48DB-A7F9-A03EAC3C19D2}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> Stashed changes
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

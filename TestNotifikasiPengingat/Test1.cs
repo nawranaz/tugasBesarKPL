@@ -45,7 +45,7 @@ namespace TestNotifikasiPengingat
         public void GetHariPerBulan_FebruariNonLeapYear_Return28()
         {
             int bulan = 2;
-            int tahun = 2023; // Bukan leap year
+            int tahun = 2023;
 
             int result = (int)typeof(NotifikasiPengingat)
                 .GetMethod("GetHariPerBulan", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
