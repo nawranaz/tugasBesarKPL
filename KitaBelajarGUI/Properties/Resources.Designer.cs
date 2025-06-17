@@ -73,9 +73,39 @@ namespace KitaBelajarGUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Physics {
+            get {
+                object obj = ResourceManager.GetObject("Physics", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap siswaSDAngkatTangan {
             get {
                 object obj = ResourceManager.GetObject("siswaSDAngkatTangan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tnd {
+            get {
+                object obj = ResourceManager.GetObject("tnd", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tnh {
+            get {
+                object obj = ResourceManager.GetObject("tnh", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
