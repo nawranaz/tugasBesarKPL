@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Library\Library.csproj" />
     <ProjectReference Include="..\TubesKPL_KitaBelajar\TubesKPL_KitaBelajar.csproj" />
+    <ProjectReference Include="..\TubesKPL_KitaBelajar_API\TubesKPL_KitaBelajar_API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

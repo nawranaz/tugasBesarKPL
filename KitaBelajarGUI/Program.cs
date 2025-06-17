@@ -50,6 +50,14 @@ namespace TubesKPL_KitaBelajar
                     case AppState.LATIHAN_SOAL:
                         Application.Run(new LatihanSoal());
                         break;
+                    case 
+                        AppState.FORUM:
+                        Application.Run(new ForumDiskusi(Program.LoggedInUser.Username));
+                        break;
+                    case 
+                        AppState.PENGINGAT:
+                        Application.Run(new NotifikasiPengingat());
+                        break;
 
                     // Bisa ditambahkan case-case lain sesuai kebutuhan modul:
                     // case AppState.MODUL: Application.Run(new ModulForm()); break;
