@@ -7,15 +7,15 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace TubesKPL_KitaBelajar.Controllers
 {
-    internal class NotifikasiPengingat
+    public class NotifikasiPengingat
     {
         private static Dictionary<int, Dictionary<int, string>> jadwalPengingatPerBulan = new()
         {
             {
                 5, new Dictionary<int, string> {
                     { 1, "Membaca materi dan mengerjakan kuis bab 1!" },
-                    { 7, "Membaca materi dan mengerjakan kuis kuis bab 2!" },
-                    { 14, "Membaca materi dan mengerjakan kuis bab 3! "},
+                    { 7, "Membaca materi dan mengerjakan kuis bab 2!" },
+                    { 14, "Membaca materi dan mengerjakan kuis bab 3!"},
                     { 28, "Evaluasi kuis bulanan!" }
                 }
 
@@ -23,8 +23,8 @@ namespace TubesKPL_KitaBelajar.Controllers
             {
                 6, new Dictionary<int, string> {
                     { 1, "Membaca materi dan mengerjakan kuis bab 4!" },
-                    { 7, "Membaca materi dan mengerjakan kuis kuis bab 5!" },
-                    { 14, "Membaca materi dan mengerjakan kuis bab 6! "},
+                    { 7, "Membaca materi dan mengerjakan kuis bab 5!" },
+                    { 14, "Membaca materi dan mengerjakan kuis bab 6!"},
                     { 28, "Evaluasi kuis bulanan!" }
                 }
 
@@ -32,8 +32,8 @@ namespace TubesKPL_KitaBelajar.Controllers
             {
                 7, new Dictionary<int, string> {
                     { 1, "Membaca materi dan mengerjakan kuis bab 7!" },
-                    { 7, "Membaca materi dan mengerjakan kuis kuis bab 8!" },
-                    { 14, "Evaluasi kuis bab 7 dan 8! "},
+                    { 7, "Membaca materi dan mengerjakan kuis bab 8!" },
+                    { 14, "Evaluasi kuis bab 7 dan 8!"},
                     { 28, "Latihan Ujian Tengah Semester!" }
                 }
 
@@ -43,7 +43,7 @@ namespace TubesKPL_KitaBelajar.Controllers
         public static void TampilkanPengingat(int bulan, int tahun)
         {
             int jumlahHari = GetHariPerBulan(bulan, tahun);
-            Console.WriteLine($"\nReminder Belajar {bulan}, {tahun}");
+            Console.WriteLine($"Reminder Belajar {bulan}, {tahun}");
             if (!jadwalPengingatPerBulan.ContainsKey(bulan))
             {
                 Console.WriteLine("Tidak ada pengingat atau jadwal yang tersedia untuk bulan ini.");
@@ -62,10 +62,10 @@ namespace TubesKPL_KitaBelajar.Controllers
 
         }
 
-        private static  int GetHariPerBulan(int bulan, int tahun)
+        private static int GetHariPerBulan(int bulan, int tahun)
         {
             int[] hariPerBulan = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-            return(bulan == 2 && DateTime.IsLeapYear(tahun)) ? 29 : hariPerBulan[bulan - 1];
+            return (bulan == 2 && DateTime.IsLeapYear(tahun)) ? 29 : hariPerBulan[bulan - 1];
         }
     }
 }

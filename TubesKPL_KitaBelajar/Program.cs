@@ -2,10 +2,10 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using TubesKPL_KitaBelajar.Model;
-using TubesKPL_KitaBelajar.Services;
 using TubesKPL_KitaBelajar.Controllers;
 using System.Diagnostics;
+using TubesKPL_KitaBelajar.Library.Model;
+using TubesKPL_KitaBelajar.Library.Services;
 
 namespace TubesKPL_KitaBelajar
 {
@@ -20,6 +20,7 @@ namespace TubesKPL_KitaBelajar
             VIDEO,
             PENGINGAT,
             FORUM,
+            CATATAN,
             EXIT
         }
 
@@ -63,6 +64,7 @@ namespace TubesKPL_KitaBelajar
                         Console.WriteLine("3. Video Pembelajaran");
                         Console.WriteLine("4. Notifikasi Pengingat");
                         Console.WriteLine("5. Forum Diskusi");
+                        Console.WriteLine("6. Catatan");
                         Console.WriteLine("Q. Keluar");
                         Console.Write("Pilih menu: ");
 
@@ -82,26 +84,62 @@ namespace TubesKPL_KitaBelajar
                             "3" => AppState.VIDEO,
                             "4" => AppState.PENGINGAT,
                             "5" => AppState.FORUM,
+                            "6" => AppState.CATATAN,
                             "Q" => AppState.EXIT,
                             _ => AppState.MENU
                         };
                         break;
 
                     case AppState.LATIHAN_SOAL:
-                        try { LatihanSoalController.StartLatihan(); }
-                        catch (Exception ex) { Console.WriteLine($"Terjadi kesalahan: {ex.Message}"); }
+                        try
+                        {
+                            var latihanSoalController = new LatihanSoalController();
+
+                            latihanSoalController.ShowToUser = msg => Console.WriteLine(msg);
+                            latihanSoalController.GetUserInput = () => Console.ReadLine();
+                            latihanSoalController.ShowSoalKeUser = (question, options) =>
+                            {
+                                Console.WriteLine(question);
+                                for (int i = 0; i < options.Length; i++)
+                                {
+                                    Console.WriteLine($"{(char)('A' + i)}. {options[i]}");
+                                }
+                            };
+                            latihanSoalController.TampilkanHasil = (benar, salah, nilai) =>
+                            {
+                                Console.WriteLine($"Benar: {benar}, Salah: {salah}, Nilai: {nilai}%");
+                            };
+
+                            latihanSoalController.StartLatihan();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Terjadi kesalahan: {ex.Message}");
+                        }
                         state = AppState.MENU;
                         break;
 
                     case AppState.MODUL:
-                        try { ModulController.TampilkanModul(); }
-                        catch (Exception ex) { Console.WriteLine($"Kesalahan modul: {ex.Message}"); }
+                        try
+                        {
+                            ModulController.TampilkanModul();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Kesalahan modul: {ex.Message}");
+                        }
                         state = AppState.MENU;
                         break;
 
                     case AppState.VIDEO:
-                        try { VideoEdukasi.RunVideo(); }
-                        catch (Exception ex) { Console.WriteLine($"Kesalahan video: {ex.Message}"); }
+                        try
+                        {
+                            VideoEdukasi.RunVideo();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Kesalahan video: {ex.Message}");
+                        }
                         state = AppState.MENU;
                         break;
 
@@ -124,7 +162,10 @@ namespace TubesKPL_KitaBelajar
 
                             NotifikasiPengingat.TampilkanPengingat(bulan, tahun);
                         }
-                        catch (Exception ex) { Console.WriteLine($"Kesalahan pengingat: {ex.Message}"); }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Kesalahan pengingat: {ex.Message}");
+                        }
                         state = AppState.MENU;
                         break;
 
@@ -136,6 +177,18 @@ namespace TubesKPL_KitaBelajar
                         catch (Exception ex)
                         {
                             Console.WriteLine($"Gagal kirim komentar: {ex.Message}");
+                        }
+                        state = AppState.MENU;
+                        break;
+
+                    case AppState.CATATAN:
+                        try
+                        {
+                            CatatanController.StartModulCatatan();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Kesalahan pada modul catatan: {ex.Message}");
                         }
                         state = AppState.MENU;
                         break;
