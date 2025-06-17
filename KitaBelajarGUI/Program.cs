@@ -58,6 +58,10 @@ namespace TubesKPL_KitaBelajar
                         AppState.PENGINGAT:
                         Application.Run(new NotifikasiPengingat());
                         break;
+                    case
+                        AppState.VIDEO:
+                        Application.Run(new FormVidIPA());
+                        break;
 
                     // Bisa ditambahkan case-case lain sesuai kebutuhan modul:
                     // case AppState.MODUL: Application.Run(new ModulForm()); break;
