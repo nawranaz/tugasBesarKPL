@@ -51,6 +51,9 @@ namespace TubesKPL_KitaBelajar
                     case AppState.LATIHAN_SOAL:
                         Application.Run(new LatihanSoal());
                         break;
+                    case AppState.MODUL:
+                        Application.Run(new ModulViewer());
+                        break;
                     case 
                         AppState.FORUM:
                         Application.Run(new ForumDiskusi(Program.LoggedInUser.Username));
