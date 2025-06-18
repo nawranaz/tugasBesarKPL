@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 using KitaBelajarGUI;
+using TubesKPL_KitaBelajar.Library.Model;
 
 namespace TubesKPL_KitaBelajar
 {
@@ -62,6 +63,12 @@ namespace TubesKPL_KitaBelajar
                         AppState.VIDEO:
                         Application.Run(new FormVidIPA());
                         break;
+
+                    case AppState.CATATAN:
+                        Application.Run(new CatatanGUI.Form1());
+                        break;
+
+
 
                     // Bisa ditambahkan case-case lain sesuai kebutuhan modul:
                     // case AppState.MODUL: Application.Run(new ModulForm()); break;
